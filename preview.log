@@ -1,0 +1,13 @@
+Camera preview: http://127.0.0.1:8765/
+127.0.0.1 - - [16/Oct/2026 11:42:45] "GET /snapshot?device=/dev/video0 HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 11:42:46] "GET /stream?device=/dev/video0 HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 11:42:58] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 11:55:32] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 11:55:33] "GET /stream?device=%2Fdev%2Fvideo0 HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 11:55:40] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [16/Oct/2026 11:55:51] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 11:55:53] "GET /stream?device=%2Fdev%2Fvideo0 HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 11:55:58] "GET /devices HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 11:56:04] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 11:56:05] "GET /stream?device=%2Fdev%2Fvideo0 HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 12:06:32] "GET /snapshot?device=/dev/video0 HTTP/1.1" 503 -

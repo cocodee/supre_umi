@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>UMI Studio · 数据采集控制台</title>
+<link rel="stylesheet" href="/static/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230b1220'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%2322d3ee' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%23818cf8'/%3E%3C/svg%3E">
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-logo" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.1" fill="currentColor"/><path d="M12 1.8v3M12 19.2v3M1.8 12h3M19.2 12h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 7.5h3l1.4-2h7.2L17 7.5h3a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 20 18.5H4A1.5 1.5 0 0 1 2.5 17V9A1.5 1.5 0 0 1 4 7.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.6" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+  <symbol id="i-cube" viewBox="0 0 24 24"><path d="M12 2.8 20 7v10l-8 4.2L4 17V7l8-4.2Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M4 7l8 4.2L20 7M12 11.2V21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="i-gripper" viewBox="0 0 24 24"><path d="M8.5 3.5v5.2c0 1.2.9 2.1 2.1 2.1h2.8c1.2 0 2.1-.9 2.1-2.1V3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M5.6 9.2 4 13.1a3 3 0 0 0 2.8 4.1h1.1l.6 3.3M18.4 9.2l1.6 3.9a3 3 0 0 1-2.8 4.1h-1.1l-.6 3.3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 13.5h9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <symbol id="i-record" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="currentColor"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2.2" fill="currentColor"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.1" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M19.2 13.6a7.5 7.5 0 0 0 0-3.2l2-1.5-2-3.4-2.3.9a7.6 7.6 0 0 0-2.8-1.6L13.7 2h-3.4l-.4 2.8a7.6 7.6 0 0 0-2.8 1.6l-2.3-.9-2 3.4 2 1.5a7.5 7.5 0 0 0 0 3.2l-2 1.5 2 3.4 2.3-.9a7.6 7.6 0 0 0 2.8 1.6l.4 2.8h3.4l.4-2.8a7.6 7.6 0 0 0 2.8-1.6l2.3.9 2-3.4-2-1.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v4.4h-4.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h4l2 2.2h9a1.5 1.5 0 0 1 1.5 1.5v8.8A1.5 1.5 0 0 1 19.5 20h-15A1.5 1.5 0 0 1 3 18.5v-11Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="i-dataset" viewBox="0 0 24 24"><ellipse cx="12" cy="5.4" rx="8" ry="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 5.4v6.2c0 1.7 3.6 3 8 3s8-1.3 8-3V5.4M4 11.6v6.2c0 1.7 3.6 3 8 3s8-1.3 8-3v-6.2" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 4.6-9 4.6-9-4.6L12 3Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m3 12 9 4.6 9-4.6M3 16.4l9 4.6 9-4.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M2.5 12h4l2-5.5 4 11L15 12h6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m4.5 12.5 5 5 10-11" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3.2 22 20H2L12 3.2Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 9.5v4.4M12 17.2v.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 24 24"><rect x="3" y="14" width="18" height="6" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5.5 14V6.5A1.5 1.5 0 0 1 7 5h7.2L18.5 9v5M7 17h.2M11 17h.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M3.5 9.2a13 13 0 0 1 17 0M6.8 12.7a8.4 8.4 0 0 1 10.4 0M10 16.2a3.6 3.6 0 0 1 4 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="19.4" r="1.2" fill="currentColor"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 2.8 14 9l6.2 2-6.2 2L12 19.2 10 13l-6.2-2L10 9l2-6.2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.2v13.6L19 12 8 5.2Z" fill="currentColor"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16M8 16v-5M12 16V7M16 16v-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<div class="ambient" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark"><svg><use href="#i-logo"/></svg></div>
+    <div class="brand-text">
+      <h1>UMI Studio</h1>
+      <p>同步数据采集控制台</p>
+    </div>
+  </div>
+
+  <div class="health" id="health">
+    <div class="pill" id="pillCamera"><i class="dot"></i><span class="pill-label">相机</span><b id="pillCameraText">等待中</b></div>
+    <div class="pill" id="pillTracker"><i class="dot"></i><span class="pill-label">Tracker</span><b id="pillTrackerText">等待中</b></div>
+    <div class="pill" id="pillGripper"><i class="dot"></i><span class="pill-label">夹爪</span><b id="pillGripperText">等待中</b></div>
+  </div>
+
+  <div class="top-actions">
+    <div class="conn" id="conn"><i class="dot"></i><span id="connText">连接中</span></div>
+    <button class="icon-btn" id="reconnectBtn" title="重新连接设备" aria-label="重新连接设备"><svg><use href="#i-refresh"/></svg></button>
+    <button class="icon-btn" id="settingsBtn" title="采集设置" aria-label="采集设置"><svg><use href="#i-settings"/></svg></button>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="col-main">
+    <article class="card stage" id="stage">
+      <header class="card-head">
+        <div class="head-left">
+          <span class="live-dot" id="stageDot"></span>
+          <h2>实时画面</h2>
+          <span class="muted ellipsis" id="stageDevice">等待设备…</span>
+        </div>
+        <div class="head-right">
+          <span class="chip ghost" id="stageRes">—</span>
+          <span class="chip ghost" id="stageFps">— fps</span>
+        </div>
+      </header>
+
+      <div class="stage-body" id="stageBody">
+        <img id="preview" alt="相机实时画面" src="/api/preview.mjpg">
+        <div class="viewfinder" aria-hidden="true"></div>
+        <div class="stage-overlay tl"><span class="badge live" id="liveBadge"><i class="dot"></i>LIVE</span></div>
+        <div class="stage-overlay tr"><span class="timecode" id="timecode">--:--:--</span></div>
+        <div class="stage-overlay bl"><span id="stageName">—</span></div>
+        <div class="stage-overlay br"><span id="stageRate">— fps</span></div>
+        <div class="stage-error" id="stageError" hidden>
+          <div class="stage-error-icon"><svg><use href="#i-alert"/></svg></div>
+          <b>相机不可用</b>
+          <span id="stageErrorText">正在尝试连接…</span>
+          <button class="mini-btn" id="stageRetry">重试连接</button>
+        </div>
+        <div class="countdown" id="countdown" hidden>
+          <div class="countdown-ring"><span id="countdownValue">3</span></div>
+          <p>准备录制</p>
+          <small>按 Esc 取消</small>
+        </div>
+      </div>
+
+      <footer class="stage-foot">
+        <div class="foot-item"><span>帧率</span><b id="footFps">—</b></div>
+        <div class="foot-item"><span>分辨率</span><b id="footRes">—</b></div>
+        <div class="foot-item"><span>累计帧</span><b id="footFrames">—</b></div>
+        <div class="foot-item"><span>画面延迟</span><b id="footAge">—</b></div>
+        <div class="foot-spacer"></div>
+        <div class="foot-item disk"><svg><use href="#i-disk"/></svg><span id="diskText">—</span></div>
+      </footer>
+    </article>
+
+    <div class="metrics">
+      <article class="card metric" id="gripperCard">
+        <header class="metric-head">
+          <div class="metric-title">
+            <span class="metric-icon cyan"><svg><use href="#i-gripper"/></svg></span>
+            <h3>夹爪宽度</h3>
+            <span class="chip" id="grSource">理论值</span>
+          </div>
+          <button class="link-btn" id="analyzeBtn" title="采集 2 秒原始角并做 FFT">分析抖动</button>
+        </header>
+        <div class="metric-main">
+          <span class="big" id="grWidth">--</span>
+          <span class="unit">mm</span>
+          <span class="status-chip" id="grStatus"><i class="dot"></i><span>—</span></span>
+        </div>
+        <div class="gauge"><div class="gauge-fill" id="grGauge"></div></div>
+        <div class="gauge-scale"><span>0</span><span>80 mm</span></div>
+        <canvas class="spark" id="grChart" aria-label="夹爪宽度趋势"></canvas>
+        <div class="metric-foot">
+          <span>原始角 <b id="grRaw">—</b></span>
+          <span title="平滑窗口内原始角的峰峰值；静止时约 50 Hz 摆动，不是夹爪真实移动。点击“分析抖动”可查看主频。">抖动 <b id="grSpan">—</b></span>
+          <span>磁铁 <b id="grMag">—</b></span>
+          <span>AGC <b id="grAgc">—</b></span>
+        </div>
+        <div class="analysis" id="gripperAnalysis" hidden></div>
+      </article>
+
+      <article class="card metric">
+        <header class="metric-head">
+          <div class="metric-title">
+            <span class="metric-icon indigo"><svg><use href="#i-cube"/></svg></span>
+            <h3>VIVE Tracker</h3>
+            <span class="status-chip" id="trStatus"><i class="dot"></i><span>—</span></span>
+          </div>
+          <span class="chip ghost" id="trRate">— Hz</span>
+        </header>
+        <div class="pose-grid">
+          <div class="pose"><span>X</span><b id="trX">—</b></div>
+          <div class="pose"><span>Y</span><b id="trY">—</b></div>
+          <div class="pose"><span>Z</span><b id="trZ">—</b></div>
+        </div>
+        <div class="tracker-meta">
+          <div><span>跟踪状态</span><b id="trResult">—</b></div>
+          <div><span>设备</span><b id="trSerial">—</b></div>
+          <div class="battery">
+            <span>电量</span><b id="trBattery">—</b>
+            <i class="batt"><i id="trBattFill"></i></i>
+          </div>
+        </div>
+      </article>
+
+      <article class="card metric">
+        <header class="metric-head">
+          <div class="metric-title">
+            <span class="metric-icon green"><svg><use href="#i-camera"/></svg></span>
+            <h3>相机</h3>
+            <span class="status-chip" id="camStatus"><i class="dot"></i><span>—</span></span>
+          </div>
+        </header>
+        <div class="metric-main">
+          <span class="big" id="camFps">--</span>
+          <span class="unit">fps</span>
+        </div>
+        <div class="cam-meta">
+          <div><span>分辨率</span><b id="camRes">—</b></div>
+          <div><span>已交付</span><b id="camFrames">—</b></div>
+          <div><span>画面延迟</span><b id="camAge">—</b></div>
+        </div>
+        <div class="cam-bars" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <aside class="col-side">
+    <article class="card record-card" id="recordCard">
+      <header class="card-head">
+        <div class="head-left"><span class="head-icon-wrap"><svg><use href="#i-record"/></svg></span><h2>录制控制</h2></div>
+        <span class="chip" id="sessionChip">未开始</span>
+      </header>
+
+      <div class="dataset-box" id="datasetBox">
+        <div class="dataset-icon"><svg><use href="#i-folder"/></svg></div>
+        <div class="dataset-info">
+          <b id="datasetName">尚未创建数据集</b>
+          <span id="datasetPath">开始录制时会自动创建</span>
+        </div>
+        <button class="mini-btn" id="closeSessionBtn" hidden>完成并校验</button>
+      </div>
+
+      <label class="field">
+        <span>任务名称</span>
+        <input id="taskInput" type="text" placeholder="例如 pick" autocomplete="off" spellcheck="false">
+      </label>
+
+      <label class="field" id="datasetNameField">
+        <span>数据集名称 <em>可选</em></span>
+        <input id="datasetNameInput" type="text" placeholder="自动生成 umi_YYYYMMDD_HHMMSS" autocomplete="off" spellcheck="false">
+      </label>
+
+      <div class="summary-chips" id="summaryChips"></div>
+
+      <button class="record-btn" id="recordBtn">
+        <span class="record-icon"><svg id="recordIcon"><use href="#i-record"/></svg></span>
+        <span class="record-text"><b id="recordLabel">开始录制</b><small id="recordSub">按 R 开始 · 3 秒倒计时</small></span>
+      </button>
+
+      <div class="rec-panel" id="recPanel" hidden>
+        <div class="rec-timer"><span id="recTimer">00:00.0</span><small>当前 episode 时长</small></div>
+        <div class="rec-stats">
+          <div><span>帧数</span><b id="recFrames">0</b></div>
+          <div><span>目标帧率</span><b id="recFps">30</b></div>
+          <div><span>相机缺失</span><b id="recCamMiss">0%</b></div>
+          <div><span>位姿无效</span><b id="recPoseBad">0%</b></div>
+        </div>
+        <div class="quality">
+          <div class="quality-row"><span>相机缺失率</span><div class="qbar"><i id="qcCamBar"></i></div><b id="qcCamText">0.0%</b></div>
+          <div class="quality-row"><span>Tracker 缺失</span><div class="qbar"><i id="qcTrBar"></i></div><b id="qcTrText">0.0%</b></div>
+          <div class="quality-row"><span>夹爪缺失</span><div class="qbar"><i id="qcGrBar"></i></div><b id="qcGrText">0.0%</b></div>
+        </div>
+      </div>
+
+      <div class="last-result" id="lastResult" hidden></div>
+      <div class="record-hint" id="recordHint">相机就绪后开始 3 秒倒计时</div>
+    </article>
+
+    <article class="card episodes">
+      <header class="card-head">
+        <div class="head-left"><span class="head-icon-wrap"><svg><use href="#i-layers"/></svg></span><h2>本数据集 Episodes</h2></div>
+        <span class="chip" id="episodeCount">0</span>
+      </header>
+      <div class="episode-list" id="episodeList">
+        <div class="empty-state">还没有 episode</div>
+      </div>
+    </article>
+
+    <article class="card activity">
+      <header class="card-head">
+        <div class="head-left"><span class="head-icon-wrap"><svg><use href="#i-pulse"/></svg></span><h2>事件</h2></div>
+      </header>
+      <div class="activity-list" id="activityList">
+        <div class="empty-state">暂无事件</div>
+      </div>
+    </article>
+  </aside>
+
+  <section class="card library" id="library">
+    <header class="card-head">
+      <div class="head-left">
+        <span class="head-icon-wrap"><svg><use href="#i-dataset"/></svg></span>
+        <h2>数据集库</h2>
+        <span class="muted ellipsis" id="outputRoot">—</span>
+      </div>
+      <div class="head-right">
+        <button class="mini-btn" id="refreshLibrary"><svg class="spin-icon"><use href="#i-refresh"/></svg>刷新</button>
+      </div>
+    </header>
+    <div class="library-grid" id="libraryGrid">
+      <div class="empty-state wide">暂无数据集</div>
+    </div>
+  </section>
+</main>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<!-- settings -->
+<div class="modal-backdrop" id="settingsModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <header class="modal-head">
+      <div><h2 id="settingsTitle">采集设置</h2><p class="muted">修改后立即生效；相机相关设置会重连设备</p></div>
+      <button class="icon-btn" data-close title="关闭"><svg><use href="#i-x"/></svg></button>
+    </header>
+    <div class="modal-body">
+      <section class="form-section">
+        <h3>存储与相机</h3>
+        <label class="field"><span>输出目录</span><input id="setOutputRoot" type="text" autocomplete="off" spellcheck="false"><small>数据集保存在该目录下的独立子目录中</small></label>
+        <div class="row2">
+          <label class="field"><span>相机设备</span><select id="setCamera"></select></label>
+          <label class="field"><span>分辨率</span><select id="setResolution"></select></label>
+        </div>
+        <div class="row2">
+          <label class="field"><span>目标帧率</span><input id="setFps" type="number" min="1" max="120" step="1"></label>
+          <label class="field"><span>数据集格式</span><select id="setFormat"><option value="v3.0">LeRobot v3.0</option><option value="v2.1">LeRobot v2.1</option></select></label>
+        </div>
+        <p class="form-note" id="sessionLockNote" hidden>数据集打开期间帧率、格式与相机设置已锁定。</p>
+      </section>
+
+      <section class="form-section">
+        <h3>设备</h3>
+        <div class="row2">
+          <label class="switch-field"><span>启用 Tracker 位姿</span><input id="setEnableTracker" type="checkbox"><i></i></label>
+          <label class="switch-field"><span>启用夹爪宽度</span><input id="setEnableGripper" type="checkbox"><i></i></label>
+        </div>
+        <label class="field"><span>夹爪标定文件 <em>可选</em></span><input id="setCalibration" type="text" list="calibList" placeholder="例如 gripper_calib.json" autocomplete="off" spellcheck="false"><datalist id="calibList"></datalist><small id="calibHint">留空时使用理论值：计数 × 80 / 4096</small></label>
+      </section>
+
+      <section class="form-section">
+        <h3>同步与质量检查</h3>
+        <div class="row2">
+          <label class="field"><span>最大样本时差 (s)</span><input id="setSampleAge" type="number" min="0.005" max="1" step="0.005"></label>
+          <label class="field"><span>最大缺失率</span><input id="setMissingRatio" type="number" min="0" max="1" step="0.01"></label>
+        </div>
+        <div class="row2">
+          <label class="field"><span>最大位姿失效率</span><input id="setPoseRatio" type="number" min="0" max="1" step="0.01"></label>
+          <div class="switch-stack">
+            <label class="switch-field"><span>丢弃未通过 QC 的 episode</span><input id="setDropBad" type="checkbox"><i></i></label>
+            <label class="switch-field"><span>记录逐帧诊断</span><input id="setQcPerFrame" type="checkbox"><i></i></label>
+          </div>
+        </div>
+      </section>
+
+      <div class="form-error" id="settingsError" hidden></div>
+    </div>
+    <footer class="modal-foot">
+      <button class="btn ghost" data-close>取消</button>
+      <button class="btn primary" id="saveSettings">保存设置</button>
+    </footer>
+  </div>
+</div>
+
+<!-- dataset detail -->
+<div class="modal-backdrop" id="datasetModal" hidden>
+  <div class="modal wide" role="dialog" aria-modal="true" aria-labelledby="dsTitle">
+    <header class="modal-head">
+      <div><h2 id="dsTitle">数据集</h2><p class="muted mono" id="dsPath">—</p></div>
+      <button class="icon-btn" data-close title="关闭"><svg><use href="#i-x"/></svg></button>
+    </header>
+    <div class="modal-body" id="dsBody"></div>
+    <footer class="modal-foot">
+      <button class="btn ghost" data-close>关闭</button>
+      <button class="btn ghost" id="validateBtn">校验数据集</button>
+      <button class="btn primary" id="browseDatasetBtn">数据浏览</button>
+    </footer>
+  </div>
+</div>
+
+<!-- dataset viewer -->
+<div class="viewer-backdrop" id="viewerModal" hidden>
+  <div class="viewer" role="dialog" aria-modal="true" aria-labelledby="viewerTitle">
+    <header class="viewer-head">
+      <div class="viewer-head-left">
+        <button class="icon-btn" id="viewerBack" title="返回数据集概览" aria-label="返回数据集概览"><svg><use href="#i-back"/></svg></button>
+        <div class="viewer-title">
+          <h2 id="viewerTitle">数据集</h2>
+          <p class="mono muted ellipsis" id="viewerPath">—</p>
+        </div>
+        <span class="chip" id="viewerFormat">—</span>
+        <span class="chip ghost" id="viewerFps">—</span>
+      </div>
+      <div class="viewer-head-right">
+        <span class="chip ghost" id="viewerEpisodeChip">—</span>
+        <button class="icon-btn" data-viewer-close title="关闭数据浏览" aria-label="关闭数据浏览"><svg><use href="#i-x"/></svg></button>
+      </div>
+    </header>
+
+    <div class="viewer-body">
+      <aside class="viewer-side">
+        <div class="viewer-side-head"><span>EPISODES</span><b id="viewerEpisodeCount">0</b></div>
+        <div class="viewer-episodes" id="viewerEpisodes"></div>
+      </aside>
+
+      <section class="viewer-content" id="viewerContent">
+        <div class="viewer-loading" id="viewerLoading"><span class="spinner"></span><span id="viewerLoadingText">加载数据…</span></div>
+
+        <div class="viewer-main" id="viewerMain" hidden>
+          <div class="viewer-video-wrap">
+            <video id="viewerVideo" controls preload="metadata" playsinline></video>
+            <div class="viewer-video-empty" id="viewerVideoEmpty" hidden>
+              <svg><use href="#i-alert"/></svg>
+              <b>该 episode 没有视频文件</b>
+              <span>仍可查看夹爪和位姿数据曲线</span>
+            </div>
+          </div>
+
+          <div class="viewer-now">
+            <div class="now-item"><span>时间</span><b id="nowTime">0.00 s</b></div>
+            <div class="now-item"><span>帧</span><b id="nowFrame">—</b></div>
+            <div class="now-item"><span>夹爪宽度</span><b id="nowWidth">—</b><small>mm</small></div>
+            <div class="now-item position"><span>位置 X / Y / Z</span><b id="nowPos">—</b><small>m</small></div>
+            <div class="now-item"><span>位姿</span><b id="nowValid">—</b></div>
+          </div>
+
+          <div class="viewer-timeline">
+            <input type="range" id="viewerSeek" min="0" max="1" step="0.01" value="0" aria-label="播放进度">
+            <div class="timeline-labels"><span id="timelineStart">0.00 s</span><span id="timelineEnd">—</span></div>
+          </div>
+
+          <div class="viewer-charts" id="viewerCharts">
+            <article class="chart-card">
+              <header>
+                <div class="chart-title"><h3>夹爪宽度</h3><span class="chart-unit">mm</span></div>
+                <div class="chart-legend" id="legendWidth"></div>
+                <div class="chart-range" id="rangeWidth">—</div>
+              </header>
+              <div class="chart-canvas-wrap" data-panel="width"><canvas id="chartWidth"></canvas></div>
+            </article>
+            <article class="chart-card">
+              <header>
+                <div class="chart-title"><h3>Tracker 位置</h3><span class="chart-unit">m</span></div>
+                <div class="chart-legend" id="legendPosition"></div>
+                <div class="chart-range" id="rangePosition">—</div>
+              </header>
+              <div class="chart-canvas-wrap" data-panel="position"><canvas id="chartPosition"></canvas></div>
+            </article>
+            <article class="chart-card">
+              <header>
+                <div class="chart-title"><h3>姿态四元数</h3><span class="chart-unit">qx / qy / qz / qw</span></div>
+                <div class="chart-legend" id="legendQuaternion"></div>
+                <div class="chart-range" id="rangeQuaternion">—</div>
+              </header>
+              <div class="chart-canvas-wrap" data-panel="quaternion"><canvas id="chartQuaternion"></canvas></div>
+            </article>
+          </div>
+
+          <div class="viewer-hint" id="viewerHint">点击或拖动曲线可跳转视频，悬停查看具体数值</div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+<div class="chart-tooltip" id="chartTooltip" hidden></div>
+
+<!-- confirm -->
+<div class="modal-backdrop" id="confirmModal" hidden>
+  <div class="modal small" role="alertdialog" aria-modal="true">
+    <header class="modal-head"><div><h2 id="confirmTitle">确认</h2><p class="muted" id="confirmMessage"></p></div></header>
+    <footer class="modal-foot">
+      <button class="btn ghost" id="confirmCancel">取消</button>
+      <button class="btn danger" id="confirmOk">确认</button>
+    </footer>
+  </div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

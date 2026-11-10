@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "type": "linear_two_point",
+  "units": "mm",
+  "counts_per_turn": 4096,
+  "reference": 3816.0,
+  "knots": [],
+  "segments": [
+    [
+      0.0,
+      -0.061764705882352944,
+      235.69411764705885
+    ]
+  ],
+  "offsets": {
+    "open": 0.0,
+    "close": 0.0
+  },
+  "open_sign": -1,
+  "direction_window": 5,
+  "direction_threshold": 4.0,
+  "levels": [
+    {
+      "width_mm": 0.0
+    },
+    {
+      "width_mm": 84.0
+    }
+  ],
+  "metrics": {
+    "n": 2,
+    "mode": "quick"
+  }
+}
